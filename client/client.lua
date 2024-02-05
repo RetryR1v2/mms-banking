@@ -245,7 +245,7 @@ end)
 
 RegisterNetEvent('mms-banking:client:buyvault')
 AddEventHandler('mms-banking:client:buyvault',function()
-    local VaultId = math.random(1000,9999)
+    local VaultId = math.random(100000,999999)
     local VaultStorage = Config.Level1
     local VaultLevel = 1
     local VaultNameInput = {

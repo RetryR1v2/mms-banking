@@ -49,6 +49,8 @@ RegisterServerEvent('mms-banking:server:buyvault', function(VaultName,VaultId,Va
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local identifier = Character.identifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
     local result = MySQL.query.await("SELECT * FROM mms_bankingvaults WHERE identifier=@identifier", { ["identifier"] = identifier})
     if #result > 0 then
         VORPcore.NotifyTip(src, _U('YouAlreadyGotVault'), 5000)
@@ -57,6 +59,10 @@ RegisterServerEvent('mms-banking:server:buyvault', function(VaultName,VaultId,Va
         {identifier,VaultId,VaultName,VaultStorage,VaultLevel}, function()end)
         Character.removeCurrency(0, Config.VaultPrice)
         VORPcore.NotifyTip(src, _U('YouBoughtVault'), 5000)
+        if Config.EnableWebHook == true then
+            VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Bought a Vault', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+        end
+        
     end
 end)
 
@@ -100,6 +106,8 @@ RegisterServerEvent('mms-banking:server:upgradevault', function()
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local identifier = Character.identifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
     local result = MySQL.query.await("SELECT * FROM mms_bankingvaults WHERE identifier=@identifier", { ["identifier"] = identifier})
     if #result > 0 then
         VaultLevel = result[1].level
@@ -112,6 +120,9 @@ RegisterServerEvent('mms-banking:server:upgradevault', function()
                 MySQL.update('UPDATE `mms_bankingvaults` SET storage = ? WHERE identifier = ?',{newstorage, identifier})
                 Character.removeCurrency(0, Config.UpgradeCosts)
                 VORPcore.NotifyTip(src, _U('VaultUpgraded'), 5000)
+                if Config.EnableWebHook == true then
+                    VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Upgraded Vault to Level ' .. newlevel, Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+                end
             elseif VaultLevel == 2 then
                 local newlevel = VaultLevel + 1
                 MySQL.update('UPDATE `mms_bankingvaults` SET level = ? WHERE identifier = ?',{newlevel, identifier})
@@ -119,6 +130,9 @@ RegisterServerEvent('mms-banking:server:upgradevault', function()
                 MySQL.update('UPDATE `mms_bankingvaults` SET storage = ? WHERE identifier = ?',{newstorage, identifier})
                 Character.removeCurrency(0, Config.UpgradeCosts)
                 VORPcore.NotifyTip(src, _U('VaultUpgraded'), 5000)
+                if Config.EnableWebHook == true then
+                    VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Upgraded Vault to Level ' .. newlevel, Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+                end
             elseif VaultLevel == 3 then
                 local newlevel = VaultLevel + 1
                 MySQL.update('UPDATE `mms_bankingvaults` SET level = ? WHERE identifier = ?',{newlevel, identifier})
@@ -126,6 +140,9 @@ RegisterServerEvent('mms-banking:server:upgradevault', function()
                 MySQL.update('UPDATE `mms_bankingvaults` SET storage = ? WHERE identifier = ?',{newstorage, identifier})
                 Character.removeCurrency(0, Config.UpgradeCosts)
                 VORPcore.NotifyTip(src, _U('VaultUpgraded'), 5000)
+                if Config.EnableWebHook == true then
+                    VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Upgraded Vault to Level ' .. newlevel, Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+                end
             elseif VaultLevel == 4 then
                 local newlevel = VaultLevel + 1
                 MySQL.update('UPDATE `mms_bankingvaults` SET level = ? WHERE identifier = ?',{newlevel, identifier})
@@ -133,6 +150,9 @@ RegisterServerEvent('mms-banking:server:upgradevault', function()
                 MySQL.update('UPDATE `mms_bankingvaults` SET storage = ? WHERE identifier = ?',{newstorage, identifier})
                 Character.removeCurrency(0, Config.UpgradeCosts)
                 VORPcore.NotifyTip(src, _U('VaultUpgraded'), 5000)
+                if Config.EnableWebHook == true then
+                    VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Upgraded Vault to Level ' .. newlevel, Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+                end
             end
         else
             VORPcore.NotifyTip(src, _U('MaxVaultLevel'), 5000)
@@ -146,6 +166,8 @@ RegisterServerEvent('mms-banking:server:depositmoney',function(depositamount)
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local identifier = Character.identifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
     local result = MySQL.query.await("SELECT * FROM mms_banking WHERE identifier=@identifier", { ["identifier"] = identifier})
         if #result > 0 then 
             local newbalance = result[1].balance + depositamount
@@ -153,11 +175,17 @@ RegisterServerEvent('mms-banking:server:depositmoney',function(depositamount)
             Character.removeCurrency(0, depositamount)
             VORPcore.NotifyTip(src, depositamount.._U('Deposited'), 5000)
             TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Deposited ' .. depositamount .. ' $', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
         else
             MySQL.insert('INSERT INTO `mms_banking` (identifier, balance) VALUES (?, ?)', {identifier,depositamount}, function()end)
             Character.removeCurrency(0, depositamount)
             VORPcore.NotifyTip(src, depositamount.._U('Deposited'), 5000)
             TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Deposited ' .. depositamount .. ' $', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
         end
 end)
 
@@ -165,6 +193,8 @@ RegisterServerEvent('mms-banking:server:withdrawmoney',function(withdrawmount)
     local src = source
     local Character = VORPcore.getUser(src).getUsedCharacter
     local identifier = Character.identifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
     local result = MySQL.query.await("SELECT * FROM mms_banking WHERE identifier=@identifier", { ["identifier"] = identifier})
         if #result > 0 then
             local newbalance = result[1].balance - withdrawmount
@@ -172,6 +202,9 @@ RegisterServerEvent('mms-banking:server:withdrawmoney',function(withdrawmount)
             Character.addCurrency(0, withdrawmount)
             VORPcore.NotifyTip(src, withdrawmount.._U('Withdrawn'), 5000)
             TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Withdrawn ' .. withdrawmount .. ' $', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
         end
 end)
 --------------------------------------------------------------------------------------------------

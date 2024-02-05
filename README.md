@@ -14,6 +14,7 @@
 # Changelog
 
 - Initial Release Version 1.1.0
+- 1.1.1 Added Webhook
 
 
 # installation 
