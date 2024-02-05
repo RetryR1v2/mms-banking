@@ -5,7 +5,7 @@ Config = {}
 -----------------------------------------------------------------------------------
 Config.EnableWebHook = true
 Config.WHTitle = 'Bank:'
-Config.WHLink = 'https://discord.com/api/webhooks/1204094965517656145/JsBu52b0JK3UCHf_vgeWxGKNSoS97O6DlwFwvnCkC1YPyI8DuE9yzuPTEfXNMLc9_W4E'  -- Discord WH link Here
+Config.WHLink = ''  -- Discord WH link Here
 Config.WHColor = 16711680 -- red
 Config.WHName = 'Bank:' -- name
 Config.WHLogo = '' -- must be 30x30px
