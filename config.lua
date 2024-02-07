@@ -3,7 +3,7 @@ Config = {}
 -----------------------------------------------------------------------------------
 ----------------------------------Webhook Settings---------------------------------
 -----------------------------------------------------------------------------------
-Config.EnableWebHook = true
+Config.EnableWebHook = false
 Config.WHTitle = 'Bank:'
 Config.WHLink = ''  -- Discord WH link Here
 Config.WHColor = 16711680 -- red

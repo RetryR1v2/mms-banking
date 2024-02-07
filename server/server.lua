@@ -207,6 +207,15 @@ RegisterServerEvent('mms-banking:server:withdrawmoney',function(withdrawmount)
             end
         end
 end)
+
+--- RegisterCallback Get Money
+
+VORPcore.Callback.Register('mms-banking:callback:getplayermoney', function(source,cb)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local Money = Character.money
+    cb(Money)
+end)
 --------------------------------------------------------------------------------------------------
 -- start version check
 --------------------------------------------------------------------------------------------------

@@ -189,7 +189,8 @@ AddEventHandler('mms-banking:client:deposit',function()
         
         if result ~= "" and result then 
             local depositamount = tonumber(result)
-            if LocalPlayer.state.Character.Money >= depositamount then
+            local Money =  VORPcore.Callback.TriggerAwait('mms-banking:callback:getplayermoney')
+            if Money >= depositamount then
                 TriggerServerEvent('mms-banking:server:depositmoney',depositamount)
             else
                 VORPcore.NotifyTip(_U('NotEnoghMoney'),  5000)
@@ -278,7 +279,8 @@ end)
 
 RegisterNetEvent('mms-banking:client:upgradevault')
 AddEventHandler('mms-banking:client:upgradevault',function()
-    if LocalPlayer.state.Character.Money >= Config.UpgradeCosts then
+    local Money =  VORPcore.Callback.TriggerAwait('mms-banking:callback:getplayermoney')
+    if Money >= Config.UpgradeCosts then
         TriggerServerEvent('mms-banking:server:upgradevault')
     else
         VORPcore.NotifyTip(_U('NotEnoghMoney'),  5000)

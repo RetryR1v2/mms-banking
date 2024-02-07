@@ -15,7 +15,7 @@
 
 - Initial Release Version 1.1.0
 - 1.1.1 Added Webhook
-
+- 1.1.2 Fixed Not Enogh Money Bug
 
 # installation 
 
