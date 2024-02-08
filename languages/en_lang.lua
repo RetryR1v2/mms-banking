@@ -23,4 +23,5 @@ Locales["en_lang"] = {
     UpgradeVault = 'Upgrade Vault ',
     MaxVaultLevel = 'Vault already got Max Size',
     VaultUpgraded = 'Vault Upgraded',
+    BankBlipName = 'Bank',
 }

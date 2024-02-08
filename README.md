@@ -16,7 +16,7 @@
 - Initial Release Version 1.1.0
 - 1.1.1 Added Webhook
 - 1.1.2 Fixed Not Enogh Money Bug
-
+- 1.1.3 Fixed Translation Bug
 # installation 
 
 - Run the SQL files to add Tables in your DB

@@ -12,7 +12,7 @@ local BankingPrompt = BccUtils.Prompts:SetupPromptGroup()
     local traderprompt = BankingPrompt:RegisterPrompt(_U('PromptName'), 0x760A9C6F, 1, 1, true, 'hold', {timedeventhash = 'MEDIUM_TIMED_EVENT'})
     if Config.BankingBlips then
         for h,v in pairs(Config.BankPositions) do
-        local bankingblip = BccUtils.Blips:SetBlip(_U('BoardblipName'), Config.BlipSprite, 0.2, v.coords.x,v.coords.y,v.coords.z)
+        local bankingblip = BccUtils.Blips:SetBlip(_U('BankBlipName'), Config.BlipSprite, 0.2, v.coords.x,v.coords.y,v.coords.z)
         CreatedBlips[#CreatedBlips + 1] = bankingblip
         end
     end

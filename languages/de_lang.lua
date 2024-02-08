@@ -23,4 +23,5 @@ Locales["de_lang"] = {
     UpgradeVault = 'Bankschließfach Erweitern ',
     MaxVaultLevel = 'Schließfach hat Bereits die Maximale größe',
     VaultUpgraded = 'Bankschließfach Erweitert',
+    BankBlipName = 'Bank',
 }
