@@ -17,6 +17,8 @@
 - 1.1.1 Added Webhook
 - 1.1.2 Fixed Not Enogh Money Bug
 - 1.1.3 Fixed Translation Bug
+- 1.1.4 Fixed Money Glitch 
+
 # installation 
 
 - Run the SQL files to add Tables in your DB
