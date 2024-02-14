@@ -18,6 +18,7 @@
 - 1.1.2 Fixed Not Enogh Money Bug
 - 1.1.3 Fixed Translation Bug
 - 1.1.4 Fixed Money Glitch 
+- 1.1.5 Quickfix
 
 # installation 
 

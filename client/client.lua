@@ -180,7 +180,7 @@ AddEventHandler('mms-banking:client:deposit',function()
         attributes = {
             inputHeader = _U('EnterValue'),
             type = "text",
-            pattern = "[0-9]^-+",
+            pattern = "[0-9]+",
             title = _U('NumbersOnly'),
             style = "border-radius: 10px; background-color: ; border:none;"
         }
@@ -215,7 +215,7 @@ AddEventHandler('mms-banking:client:withdraw',function()
         attributes = {
             inputHeader = _U('EnterValue'),
             type = "text",
-            pattern = "[0-9]^-+",
+            pattern = "[0-9]+",
             title = _U('NumbersOnly'),
             style = "border-radius: 10px; background-color: ; border:none;"
         }
