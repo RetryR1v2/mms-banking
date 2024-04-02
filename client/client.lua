@@ -2,10 +2,135 @@ local VORPcore = exports.vorp_core:GetCore()
 local BccUtils = exports['bcc-utils'].initiate()
 local FeatherMenu =  exports['feather-menu'].initiate()
 
+local getsendbills = 0
+local getrecivedbills = 0
 
-local CreatedBlips = {}
-local CreatedNpcs = {}
+local CreatedBlips2 = {}
+local CreatedNpcs2 = {}
 
+RegisterCommand(Config.BillsCommand, function()
+	Bills:Open({
+        startupPage = BillsPage1,
+    })
+end)
+
+Citizen.CreateThread(function ()
+    Bills = FeatherMenu:RegisterMenu('billsmenu', {
+        top = '50%',
+        left = '50%',
+        ['720width'] = '500px',
+        ['1080width'] = '700px',
+        ['2kwidth'] = '700px',
+        ['4kwidth'] = '800px',
+        style = {
+            ['border'] = '5px solid orange',
+            -- ['background-image'] = 'none',
+            ['background-color'] = '#FF8C00'
+        },
+        contentslot = {
+            style = {
+                ['height'] = '550px',
+                ['min-height'] = '250px'
+            }
+        },
+        draggable = true,
+    --canclose = false
+}, {
+    opened = function()
+        --print("MENU OPENED!")
+    end,
+    closed = function()
+        --print("MENU CLOSED!")
+    end,
+    topage = function(data)
+        --print("PAGE CHANGED ", data.pageid)
+    end
+})
+    BillsPage1 = Bills:RegisterPage('seite1')
+    BillsPage1:RegisterElement('header', {
+        value = _U('BillsBoardHeader'),
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BillsPage1:RegisterElement('line', {
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    local billamount = ''
+    BillsPage1:RegisterElement('input', {
+    label = _U('BillAmount'),
+    placeholder = "",
+    persist = false,
+    style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+    },
+}, function(data)
+    billamount = data.value
+end)
+    BillsPage1:RegisterElement('button', {
+        label = _U('CreateBill'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        local ba = tonumber(billamount)
+        Bills:Close({ 
+        })
+        TriggerEvent('mms-banking:client:createbill',ba)
+    end)
+    BillsPage1:RegisterElement('button', {
+        label = _U('MyCreatedBills'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:getsendbills')
+    end)
+    BillsPage1:RegisterElement('button', {
+        label = _U('MyRecievedBills'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:getrecivedbills')
+    end)
+    BillsPage1:RegisterElement('button', {
+        label =  _U('CloseBoardBills'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        Bills:Close({ 
+        })
+    end)
+    BillsPage1:RegisterElement('subheader', {
+        value = _U('BoardHeader'),
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BillsPage1:RegisterElement('line', {
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+end)
 
 Citizen.CreateThread(function()
 local BankingPrompt = BccUtils.Prompts:SetupPromptGroup()
@@ -13,13 +138,13 @@ local BankingPrompt = BccUtils.Prompts:SetupPromptGroup()
     if Config.BankingBlips then
         for h,v in pairs(Config.BankPositions) do
         local bankingblip = BccUtils.Blips:SetBlip(_U('BankBlipName'), Config.BlipSprite, 0.2, v.coords.x,v.coords.y,v.coords.z)
-        CreatedBlips[#CreatedBlips + 1] = bankingblip
+        CreatedBlips2[#CreatedBlips2 + 1] = bankingblip
         end
     end
     if Config.CreateNPC then
         for h,v in pairs(Config.BankPositions) do
         local bankingped = BccUtils.Ped:Create('u_f_m_tumgeneralstoreowner_01', v.coords.x, v.coords.y, v.coords.z -1, 0, 'world', false)
-        CreatedNpcs[#CreatedNpcs + 1] = bankingped
+        CreatedNpcs2[#CreatedNpcs2 + 1] = bankingped
         bankingped:Freeze()
         bankingped:SetHeading(v.NpcHeading)
         bankingped:Invincible()
@@ -59,7 +184,7 @@ Citizen.CreateThread(function ()
         ['720width'] = '500px',
         ['1080width'] = '700px',
         ['2kwidth'] = '700px',
-        ['4kwidth'] = '8000px',
+        ['4kwidth'] = '800px',
         style = {
             ['border'] = '5px solid orange',
             -- ['background-image'] = 'none',
@@ -72,7 +197,18 @@ Citizen.CreateThread(function ()
             }
         },
         draggable = true,
-    })
+    --canclose = false
+}, {
+    opened = function()
+        --print("MENU OPENED!")
+    end,
+    closed = function()
+        --print("MENU CLOSED!")
+    end,
+    topage = function(data)
+        --print("PAGE CHANGED ", data.pageid)
+    end
+})
     BankingPage1 = Banking:RegisterPage('seite1')
     BankingPage1:RegisterElement('header', {
         value = _U('BoardHeader'),
@@ -89,6 +225,10 @@ Citizen.CreateThread(function ()
     })
     Kontostand = BankingPage1:RegisterElement('textdisplay', {
         value = _U('BankValue'),
+        style = {}
+    })
+    Kontonummer = BankingPage1:RegisterElement('textdisplay', {
+        value = _U('BankId'),
         style = {}
     })
     BankingPage1:RegisterElement('button', {
@@ -110,6 +250,16 @@ Citizen.CreateThread(function ()
         },
     }, function()
         TriggerEvent('mms-banking:client:withdraw')
+    end)
+    BankingPage1:RegisterElement('button', {
+        label = _U('Transfer'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage2:RouteTo()
     end)
     BankingPage1:RegisterElement('button', {
         label = _U('OpenVault'),
@@ -165,6 +315,406 @@ Citizen.CreateThread(function ()
         ['color'] = 'orange',
         }
     })
+
+
+
+    --- Seite 2 
+
+    BankingPage2 = Banking:RegisterPage('seite2')
+    BankingPage2:RegisterElement('header', {
+        value = _U('BoardHeader'),
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage2:RegisterElement('line', {
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    local transferamount = ''
+    BankingPage2:RegisterElement('input', {
+    label = _U('TransferAmount'),
+    placeholder = "",
+    persist = false,
+    style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function(data)
+    transferamount = data.value
+end)
+local transferid = ''
+    BankingPage2:RegisterElement('input', {
+    label = _U('EnterId'),
+    placeholder = "",
+    persist = false,
+    style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function(data)
+    transferid = data.value
+end)
+BankingPage2:RegisterElement('button', {
+    label =  _U('TransferMoney'),
+    style = {
+    ['background-color'] = '#FF8C00',
+    ['color'] = 'orange',
+    ['border-radius'] = '6px'
+    },
+}, function()
+    Banking:Close({ 
+    })
+    local tfamount = tonumber(transferamount)
+    local tfid = tonumber(transferid)
+    TriggerEvent('mms-banking:client:transfer',tfamount,tfid)
+end)
+BankingPage2:RegisterElement('button', {
+    label =  _U('BackMenu'),
+    style = {
+    ['background-color'] = '#FF8C00',
+    ['color'] = 'orange',
+    ['border-radius'] = '6px'
+    },
+}, function()
+    BankingPage1:RouteTo()
+end)
+    BankingPage2:RegisterElement('button', {
+        label =  _U('CloseBoard'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        Banking:Close({ 
+        })
+    end)
+    BankingPage2:RegisterElement('subheader', {
+        value = _U('BoardHeader'),
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage2:RegisterElement('line', {
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+end)
+
+--- Create Bills
+
+
+RegisterNetEvent('mms-banking:client:createbill')
+AddEventHandler('mms-banking:client:createbill',function(ba)
+    TriggerServerEvent('mms-banking:server:createbill',ba)
+end)
+
+--- GET SEND BILLS
+
+RegisterNetEvent('mms-banking:client:getsendbills',function()
+    TriggerServerEvent('mms-banking:server:getsendbills')
+end)
+
+RegisterNetEvent('mms-banking:client:recivesendbills',function(eintraege)
+    if getsendbills == 0 then
+        BillsPage2 = Bills:RegisterPage('seite2')
+        BillsPage2:RegisterElement('header', {
+            value = _U('BillsBoardHeader'),
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RegisterElement('line', {
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        for _, sbill in ipairs(eintraege) do
+            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$'
+            BillsPage2:RegisterElement('button', {
+                label = buttonLabel,
+                style = {
+                    ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+                }
+            }, function()
+                
+            end)
+        end
+        BillsPage2:RegisterElement('button', {
+            label = _U('BackMenu'),
+            style = {
+                ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            BillsPage1:RouteTo()
+        end)
+        BillsPage2:RegisterElement('button', {
+            label =  _U('CloseBoardBills'),
+            style = {
+            ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            Bills:Close({ 
+            })
+        end)
+        BillsPage2:RegisterElement('subheader', {
+            value = _U('BoardHeader'),
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RegisterElement('line', {
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RouteTo()
+        getsendbills = 1
+    elseif getsendbills == 1 then
+        BillsPage2:UnRegister()
+        BillsPage2 = Bills:RegisterPage('seite2')
+        BillsPage2:RegisterElement('header', {
+            value = _U('BillsBoardHeader'),
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RegisterElement('line', {
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        for _, sbill in ipairs(eintraege) do
+            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$'
+            BillsPage2:RegisterElement('button', {
+                label = buttonLabel,
+                style = {
+                    ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+                }
+            }, function()
+                
+            end)
+        end
+        BillsPage2:RegisterElement('button', {
+            label = _U('BackMenu'),
+            style = {
+                ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            BillsPage1:RouteTo()
+        end)
+        BillsPage2:RegisterElement('button', {
+            label =  _U('CloseBoardBills'),
+            style = {
+            ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            Bills:Close({ 
+            })
+        end)
+        BillsPage2:RegisterElement('subheader', {
+            value = _U('BoardHeader'),
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RegisterElement('line', {
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage2:RouteTo()
+    end
+
+end)
+
+--- GET Recived BILLS
+
+RegisterNetEvent('mms-banking:client:getrecivedbills',function()
+    TriggerServerEvent('mms-banking:server:getrecivedbills')
+end)
+
+RegisterNetEvent('mms-banking:client:recivegotbills',function(eintraege)
+    if getrecivedbills == 0 then
+        BillsPage3 = Bills:RegisterPage('seite2')
+        BillsPage3:RegisterElement('header', {
+            value = _U('BillsBoardHeader'),
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RegisterElement('line', {
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        for _, rbill in ipairs(eintraege) do
+            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'
+            local payamount = rbill.amount
+            local tocharid = rbill.fromcharidentifier
+            local billid = rbill.id
+            BillsPage3:RegisterElement('button', {
+                label = buttonLabel,
+                style = {
+                    ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+                }
+            }, function()
+                Bills:Close()
+                TriggerEvent('mms-banking:client:paybill',payamount,tocharid,billid)
+            end)
+        end
+        BillsPage3:RegisterElement('button', {
+            label = _U('BackMenu'),
+            style = {
+                ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            BillsPage1:RouteTo()
+        end)
+        BillsPage3:RegisterElement('button', {
+            label =  _U('CloseBoardBills'),
+            style = {
+            ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            Bills:Close({ 
+            })
+        end)
+        BillsPage3:RegisterElement('subheader', {
+            value = _U('BoardHeader'),
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RegisterElement('line', {
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RouteTo()
+        getrecivedbills = 1
+    elseif getrecivedbills == 1 then
+        BillsPage3:UnRegister()
+        BillsPage3 = Bills:RegisterPage('seite2')
+        BillsPage3:RegisterElement('header', {
+            value = _U('BillsBoardHeader'),
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RegisterElement('line', {
+            slot = 'header',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        for _, rbill in ipairs(eintraege) do
+            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'
+            local payamount = rbill.amount
+            local tocharid = rbill.fromcharidentifier
+            local billid = rbill.id
+            BillsPage3:RegisterElement('button', {
+                label = buttonLabel,
+                style = {
+                    ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+                }
+            }, function()
+                Bills:Close()
+                TriggerEvent('mms-banking:client:paybill',payamount,tocharid,billid)
+            end)
+        end
+        BillsPage3:RegisterElement('button', {
+            label = _U('BackMenu'),
+            style = {
+                ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            BillsPage1:RouteTo()
+        end)
+        BillsPage3:RegisterElement('button', {
+            label =  _U('CloseBoardBills'),
+            style = {
+            ['background-color'] = '#FF8C00',
+            ['color'] = 'orange',
+            ['border-radius'] = '6px'
+            },
+        }, function()
+            Bills:Close({ 
+            })
+        end)
+        BillsPage3:RegisterElement('subheader', {
+            value = _U('BoardHeader'),
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RegisterElement('line', {
+            slot = 'footer',
+            style = {
+            ['color'] = 'orange',
+            }
+        })
+        BillsPage3:RouteTo()
+    end
+
+end)
+
+--- PayBill
+
+RegisterNetEvent('mms-banking:client:paybill',function(payamount,tocharid,billid)
+    TriggerServerEvent('mms-banking:server:paybill',payamount,tocharid,billid)
+end)
+
+--- Transfer Money
+
+RegisterNetEvent('mms-banking:client:transfer')
+AddEventHandler('mms-banking:client:transfer',function(tfamount,tfid)
+      TriggerServerEvent('mms-banking:server:transfermoney',tfamount,tfid)
 end)
 
 --- Deposit Money
@@ -192,6 +742,8 @@ AddEventHandler('mms-banking:client:deposit',function()
             local Money =  VORPcore.Callback.TriggerAwait('mms-banking:callback:getplayermoney')
             if Money >= depositamount then
                 TriggerServerEvent('mms-banking:server:depositmoney',depositamount)
+                Banking:Close({ 
+                })
             else
                 VORPcore.NotifyTip(_U('NotEnoghMoney'),  5000)
             end
@@ -227,6 +779,8 @@ AddEventHandler('mms-banking:client:withdraw',function()
             local balanceresult = VORPcore.Callback.TriggerAwait('mms-banking:callback:updatebalance')
             if balanceresult >= withdrawmount then
                 TriggerServerEvent('mms-banking:server:withdrawmoney',withdrawmount)
+                Banking:Close({ 
+                })
             else
                 VORPcore.NotifyTip(_U('NotEnoghBalance'),  5000)
             end
@@ -295,6 +849,11 @@ AddEventHandler('mms-banking:client:updatebalance',function()
         value = _U('BankValue') .. result .. ' $',
         style = {}
     })
+    local result2 = VORPcore.Callback.TriggerAwait('mms-banking:callback:updateid')
+    Kontonummer:update({
+        value = _U('BankId') .. result2,
+        style = {}
+    })
 end)
 
 --- Get Feather Menu Events OPEN/CLOSE Menu
@@ -312,13 +871,15 @@ end)
 
 ---- CleanUp on Resource Restart 
 
-RegisterNetEvent('onResourceStop',function()
-    for _, npcs in ipairs(CreatedNpcs) do
+RegisterNetEvent('onResourceStop',function(resource)
+    if resource == GetCurrentResourceName() then
+    for _, npcs in ipairs(CreatedNpcs2) do
         npcs:Remove()
 	end
-    for _, blips in ipairs(CreatedBlips) do
+    for _, blips in ipairs(CreatedBlips2) do
         blips:Remove()
 	end
+end
 end)
 
 -- open doors

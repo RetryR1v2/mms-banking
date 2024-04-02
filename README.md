@@ -19,6 +19,17 @@
 - 1.1.3 Fixed Translation Bug
 - 1.1.4 Fixed Money Glitch 
 - 1.1.5 Quickfix
+- 1.1.6 New Features
+- Database Rework
+- Bill System Added
+- Transfer Money System Added
+
+You can now Transfer Money between Accounts
+Now Using CharIdentifier instead of SteamID
+You Can Create and Pay Bills with /rechnung defined in Config.
+
+To Update Version 1.1.6 you need to Delete Old Database and Run the New SQL File
+Replace ALL FILES!!!
 
 # installation 
 

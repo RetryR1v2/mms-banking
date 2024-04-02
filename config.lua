@@ -3,9 +3,9 @@ Config = {}
 -----------------------------------------------------------------------------------
 ----------------------------------Webhook Settings---------------------------------
 -----------------------------------------------------------------------------------
-Config.EnableWebHook = false
+Config.EnableWebHook = true
 Config.WHTitle = 'Bank:'
-Config.WHLink = ''  -- Discord WH link Here
+Config.WHLink = 'https://discord.com/api/webhooks/1204094965517656145/JsBu52b0JK3UCHf_vgeWxGKNSoS97O6DlwFwvnCkC1YPyI8DuE9yzuPTEfXNMLc9_W4E'  -- Discord WH link Here
 Config.WHColor = 16711680 -- red
 Config.WHName = 'Bank:' -- name
 Config.WHLogo = '' -- must be 30x30px
@@ -14,6 +14,7 @@ Config.WHAvatar = '' -- must be 30x30px
 
 Config.defaultlang = "de_lang" -- Set Language (Current Languages: "en_lang" English, "de_lang" German)
 
+Config.BillsCommand = 'rechnung'
 
 Config.BankingBlips = true
 Config.BlipSprite = 'blip_cash_bag'
@@ -21,8 +22,8 @@ Config.CreateNPC = true
 
 Config.BankPositions = {
     {
-        coords = vector3(-810.73, -1275.36, 43.64),--- Also the Location of Blip and Npc (Blackwater)
-        NpcHeading = 179.53,
+        coords = vector3(-850.7, -1231.52, 44.65),--- Also the Location of Blip and Npc (Blackwater)
+        NpcHeading = 273.64,
     },
     {
         coords = vector3(-307.92, 773.98, 118.7),--- Also the Location of Blip and Npc (Valentine)
@@ -35,6 +36,10 @@ Config.BankPositions = {
     {
         coords = vector3(2644.98, -1293.9, 52.25),--- Also the Location of Blip and Npc (SaintDenise)},
         NpcHeading = 24.66,
+    },
+    {
+        coords = vector3(-1789.16, -354.18, 165.07),--- Also the Location of Blip and Npc (Strawberry)},
+        NpcHeading = 112.15,
     },
 }
 
