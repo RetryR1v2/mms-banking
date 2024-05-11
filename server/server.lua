@@ -95,25 +95,23 @@ RegisterServerEvent('mms-banking:server:openvault', function()
         VaultId = result[1].vaultid
         VaultStorage = result[1].storage
         VaultLevel = result[1].level
-    local isregistred = exports.vorp_inventory:isCustomInventoryRegistered(VaultId)
-    if isregistred == true then
-    exports.vorp_inventory:closeInventory(src, VaultId)
-    exports.vorp_inventory:removeInventory(VaultId)
-    end
-    exports.vorp_inventory:registerInventory(
-        {
-            id = VaultId,
-            name = VaultName,
-            limit = VaultStorage,
-            acceptWeapons = true,
-            shared = false,
-            ignoreItemStackLimit = true,
-
-        }
-    )
-    local isregistred = exports.vorp_inventory:isCustomInventoryRegistered(VaultId)
+        local isregistred = exports.vorp_inventory:isCustomInventoryRegistered(VaultId)
         if isregistred == true then
-         exports.vorp_inventory:openInventory(src, VaultId)
+            exports.vorp_inventory:closeInventory(src, VaultId)
+            exports.vorp_inventory:openInventory(src, VaultId)
+        else
+            exports.vorp_inventory:registerInventory(
+            {
+                id = VaultId,
+                name = VaultName,
+                limit = VaultStorage,
+                acceptWeapons = true,
+                shared = false,
+                ignoreItemStackLimit = true,
+            }
+            )
+            exports.vorp_inventory:openInventory(src, VaultId)
+            isregistred = exports.vorp_inventory:isCustomInventoryRegistered(VaultId)
         end
     else
         VORPcore.NotifyTip(src, _U('YouGotNoVault'), 5000)
