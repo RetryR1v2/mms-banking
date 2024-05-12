@@ -24,6 +24,7 @@
 - Bill System Added
 - Transfer Money System Added
 - 1.1.7 BugFix Vaults that Weapons dont Shown
+- 1.1.8 BugFix Wrong Bank Account by more then 2 Open it at Same Time
 
 You can now Transfer Money between Accounts
 Now Using CharIdentifier instead of SteamID

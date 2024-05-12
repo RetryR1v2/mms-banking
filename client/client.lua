@@ -844,23 +844,27 @@ end)
 
 RegisterNetEvent('mms-banking:client:updatebalance')
 AddEventHandler('mms-banking:client:updatebalance',function()
-    local result = VORPcore.Callback.TriggerAwait('mms-banking:callback:updatebalance')
+    TriggerServerEvent('mms-banking:server:updatebalance')
+end)
+
+RegisterNetEvent('mms-banking:client:reciveupdatebalance')
+AddEventHandler('mms-banking:client:reciveupdatebalance',function(balance,kontoid)
     Kontostand:update({
-        value = _U('BankValue') .. result .. ' $',
+        value = _U('BankValue') .. balance .. ' $',
         style = {}
     })
-    local result2 = VORPcore.Callback.TriggerAwait('mms-banking:callback:updateid')
     Kontonummer:update({
-        value = _U('BankId') .. result2,
+        value = _U('BankId') .. kontoid,
         style = {}
     })
 end)
+
 
 --- Get Feather Menu Events OPEN/CLOSE Menu
 
 RegisterNetEvent('FeatherMenu:opened', function(menudata)
     if menudata.menuid == 'bankingmenu' then
-        TriggerEvent('mms-banking:client:updatebalance')
+        TriggerServerEvent('mms-banking:server:updatebalance')
     end
 end)
 
