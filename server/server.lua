@@ -30,6 +30,20 @@ local function CheckVersion()
     end)
 end
 
+VORPcore.Callback.Register('mms-banking:callback:updatebalance', function(source,cb)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local identifier = Character.identifier
+    local charidentifier = Character.charIdentifier
+    local result = MySQL.query.await("SELECT * FROM mms_banking WHERE charidentifier=@charidentifier", { ["charidentifier"] = charidentifier})
+        if #result > 0 then
+            amount = result[1].balance
+        else
+            amount = 0
+        end
+    Citizen.Wait(500)
+    cb (amount)
+end)
 
 RegisterServerEvent('mms-banking:server:updatebalance', function()
     local src = source
