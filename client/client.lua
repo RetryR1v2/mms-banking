@@ -334,19 +334,6 @@ Citizen.CreateThread(function ()
         ['color'] = 'orange',
         }
     })
-    local transferamount = ''
-    BankingPage2:RegisterElement('input', {
-    label = _U('TransferAmount'),
-    placeholder = "",
-    persist = false,
-    style = {
-        ['background-color'] = '#FF8C00',
-        ['color'] = 'orange',
-        ['border-radius'] = '6px'
-        },
-    }, function(data)
-    transferamount = data.value
-end)
 local transferid = ''
     BankingPage2:RegisterElement('input', {
     label = _U('EnterId'),
@@ -370,9 +357,8 @@ BankingPage2:RegisterElement('button', {
 }, function()
     Banking:Close({ 
     })
-    local tfamount = tonumber(transferamount)
     local tfid = tonumber(transferid)
-    TriggerEvent('mms-banking:client:transfer',tfamount,tfid)
+    TriggerEvent('mms-banking:client:transfer',tfid)
 end)
 BankingPage2:RegisterElement('button', {
     label =  _U('BackMenu'),
@@ -713,8 +699,30 @@ end)
 --- Transfer Money
 
 RegisterNetEvent('mms-banking:client:transfer')
-AddEventHandler('mms-banking:client:transfer',function(tfamount,tfid)
-      TriggerServerEvent('mms-banking:server:transfermoney',tfamount,tfid)
+AddEventHandler('mms-banking:client:transfer',function(tfid)
+    local TransferInput = {
+        type = "enableinput",
+        inputType = "input",
+        button = _U('Confirm'),
+        placeholder = "$",
+        style = "block",
+        attributes = {
+            inputHeader = _U('EnterValue'),
+            type = "text",
+            pattern = "[0-9]+",
+            title = _U('NumbersOnly'),
+            style = "border-radius: 10px; background-color: ; border:none;"
+        }
+    }
+    TriggerEvent("vorpinputs:advancedInput", json.encode(TransferInput), function(result)
+        
+        if result ~= "" and result then 
+            local tfamount = tonumber(result)
+            TriggerServerEvent('mms-banking:server:transfermoney',tfamount,tfid)
+        else
+            print(_U('NoEntry')) 
+        end
+    end)
 end)
 
 --- Deposit Money

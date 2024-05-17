@@ -24,7 +24,6 @@ Locales["de_lang"] = {
     MaxVaultLevel = 'Schließfach hat Bereits die Maximale größe',
     VaultUpgraded = 'Bankschließfach Erweitert',
     BankBlipName = 'Bank',
---NEW
     Transfer = 'Geld Überweisen',
     BillsBoardHeader = 'Rechnungs Menü',
     CloseBoardBills = 'Rechnungen Schließen',
