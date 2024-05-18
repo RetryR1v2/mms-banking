@@ -27,6 +27,7 @@
 - 1.1.8 BugFix Wrong Bank Account by more then 2 Open it at Same Time
 - 1.1.9 BugFix on - amount by Transfer Money
 - 1.2.0 New Feature Bill Reason now you can Give the Bill a Reason
+- Changed Files (Fxmanifest,version,readme,client,server,2 New Translationsw)
 
 You can now Transfer Money between Accounts
 Now Using CharIdentifier instead of SteamID
