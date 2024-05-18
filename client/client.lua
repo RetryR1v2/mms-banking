@@ -73,6 +73,19 @@ Citizen.CreateThread(function ()
 }, function(data)
     billamount = data.value
 end)
+local billreason = ''
+    BillsPage1:RegisterElement('input', {
+    label = _U('BillReason'),
+    placeholder = "",
+    persist = false,
+    style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+    },
+}, function(data)
+    billreason = data.value
+end)
     BillsPage1:RegisterElement('button', {
         label = _U('CreateBill'),
         style = {
@@ -81,10 +94,11 @@ end)
         ['border-radius'] = '6px'
         },
     }, function()
+        local br = billreason
         local ba = tonumber(billamount)
         Bills:Close({ 
         })
-        TriggerEvent('mms-banking:client:createbill',ba)
+        TriggerEvent('mms-banking:client:createbill',ba,br)
     end)
     BillsPage1:RegisterElement('button', {
         label = _U('MyCreatedBills'),
@@ -400,8 +414,8 @@ end)
 
 
 RegisterNetEvent('mms-banking:client:createbill')
-AddEventHandler('mms-banking:client:createbill',function(ba)
-    TriggerServerEvent('mms-banking:server:createbill',ba)
+AddEventHandler('mms-banking:client:createbill',function(ba,br)
+    TriggerServerEvent('mms-banking:server:createbill',ba,br)
 end)
 
 --- GET SEND BILLS
@@ -427,7 +441,7 @@ RegisterNetEvent('mms-banking:client:recivesendbills',function(eintraege)
             }
         })
         for _, sbill in ipairs(eintraege) do
-            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$'
+            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$ ' .. _U('Reason') .. sbill.reason
             BillsPage2:RegisterElement('button', {
                 label = buttonLabel,
                 style = {
@@ -492,7 +506,7 @@ RegisterNetEvent('mms-banking:client:recivesendbills',function(eintraege)
             }
         })
         for _, sbill in ipairs(eintraege) do
-            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$'
+            local buttonLabel = 'Rechnung an:  '.. sbill.tofirstname ..' '.. sbill.tolastname .. _U('BillSendAmount') .. sbill.amount .. '$'.. _U('Reason') .. sbill.reason
             BillsPage2:RegisterElement('button', {
                 label = buttonLabel,
                 style = {
@@ -566,7 +580,7 @@ RegisterNetEvent('mms-banking:client:recivegotbills',function(eintraege)
             }
         })
         for _, rbill in ipairs(eintraege) do
-            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'
+            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'.. _U('Reason') .. rbill.reason
             local payamount = rbill.amount
             local tocharid = rbill.fromcharidentifier
             local billid = rbill.id
@@ -635,7 +649,7 @@ RegisterNetEvent('mms-banking:client:recivegotbills',function(eintraege)
             }
         })
         for _, rbill in ipairs(eintraege) do
-            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'
+            local buttonLabel = 'Rechnung von:  '.. rbill.fromfirstname ..' '.. rbill.fromlastname .. _U('BillSendAmount') .. rbill.amount .. '$'.. _U('Reason') .. rbill.reason
             local payamount = rbill.amount
             local tocharid = rbill.fromcharidentifier
             local billid = rbill.id

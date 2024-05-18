@@ -26,6 +26,7 @@
 - 1.1.7 BugFix Vaults that Weapons dont Shown
 - 1.1.8 BugFix Wrong Bank Account by more then 2 Open it at Same Time
 - 1.1.9 BugFix on - amount by Transfer Money
+- 1.2.0 New Feature Bill Reason now you can Give the Bill a Reason
 
 You can now Transfer Money between Accounts
 Now Using CharIdentifier instead of SteamID

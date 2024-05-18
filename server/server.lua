@@ -263,7 +263,7 @@ end)
 
 --- CreateBill
 
-RegisterServerEvent('mms-banking:server:createbill',function (ba)
+RegisterServerEvent('mms-banking:server:createbill',function (ba,br)
     local src = source
     local MyPedId = GetPlayerPed(src)
     local MyCoords =  GetEntityCoords(MyPedId)
@@ -284,10 +284,10 @@ RegisterServerEvent('mms-banking:server:createbill',function (ba)
         if Dist > 0.3 and Dist < 1.5 then
             VORPcore.NotifyTip(src, _U('BillCreated') .. closestfirstname .. ' ' .. closestlastname .. '!',  5000)
             VORPcore.NotifyTip(player, _U('BillRecived') .. firstname .. ' ' .. lastname .. '!',  5000)
-            MySQL.insert('INSERT INTO `mms_bankingbills` (fromidentifier, fromcharidentifier, fromfirstname, fromlastname,toidentifier, tocharidentifier, tofirstname, tolastname, amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            {identifier,charidentifier,firstname,lastname,closestidentifier,closestcharidentifier,closestfirstname,closestlastname,ba}, function()end)
+            MySQL.insert('INSERT INTO `mms_bankingbills` (fromidentifier, fromcharidentifier, fromfirstname, fromlastname,toidentifier, tocharidentifier, tofirstname, tolastname, amount, reason) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            {identifier,charidentifier,firstname,lastname,closestidentifier,closestcharidentifier,closestfirstname,closestlastname,ba,br}, function()end)
             if Config.EnableWebHook == true then
-                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' stellt ' .. closestfirstname .. ' ' .. closestlastname .. ' eine Rechnung aus Betrag: ' .. ba .. '$', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' stellt ' .. closestfirstname .. ' ' .. closestlastname .. ' eine Rechnung aus Betrag: ' .. ba .. '$' .. ' Grund: ' .. br, Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
             end
         else
             --VORPcore.NotifyTip(src, _U('NoNearbyPlayer'),  5000)

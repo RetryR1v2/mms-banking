@@ -48,7 +48,8 @@ Locales["de_lang"] = {
     MyRecievedBills = 'Erhaltene Rechnungen Anzeigen',
     PayedBillFrom = ' Bezahlt Rechnung von ',
     YouPayedBillFrom = 'Du hast eine Rechnung Bezahlt!',
-    BillNotFound = 'Rechnung nicht Gefunden.'
-    
+    BillNotFound = 'Rechnung nicht Gefunden.',
+    BillReason = 'Rechnungsgrund',
+    Reason = ' Grund: ',
 
 }
