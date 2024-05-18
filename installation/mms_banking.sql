@@ -37,10 +37,12 @@ CREATE TABLE `mms_bankingbills` (
 	`tofirstname` VARCHAR(50) NOT NULL DEFAULT '0' COLLATE 'utf8_general_ci',
 	`tolastname` VARCHAR(50) NOT NULL DEFAULT '0' COLLATE 'utf8_general_ci',
 	`amount` INT(11) NOT NULL DEFAULT '0',
+	`reason` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`id`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
-AUTO_INCREMENT=1
+AUTO_INCREMENT=49
 ;
+
 
