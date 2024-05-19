@@ -764,8 +764,6 @@ AddEventHandler('mms-banking:client:deposit',function()
             local Money =  VORPcore.Callback.TriggerAwait('mms-banking:callback:getplayermoney')
             if Money >= depositamount then
                 TriggerServerEvent('mms-banking:server:depositmoney',depositamount)
-                Banking:Close({ 
-                })
             else
                 VORPcore.NotifyTip(_U('NotEnoghMoney'),  5000)
             end
@@ -801,8 +799,6 @@ AddEventHandler('mms-banking:client:withdraw',function()
             local balanceresult = VORPcore.Callback.TriggerAwait('mms-banking:callback:updatebalance')
             if balanceresult >= withdrawmount then
                 TriggerServerEvent('mms-banking:server:withdrawmoney',withdrawmount)
-                Banking:Close({ 
-                })
             else
                 VORPcore.NotifyTip(_U('NotEnoghBalance'),  5000)
             end
