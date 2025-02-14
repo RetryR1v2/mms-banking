@@ -29,6 +29,7 @@
 - 1.2.0 New Feature Bill Reason now you can Give the Bill a Reason
 - Changed Files (Fxmanifest,version,readme,client,server,2 New Translationsw)
 - 1.2.1 Fixed Console Error
+- 1.2.2 Added Exchange System To Change Money with Gold.
 
 You can now Transfer Money between Accounts
 Now Using CharIdentifier instead of SteamID

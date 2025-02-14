@@ -367,6 +367,46 @@ end
 end)
 
 
+--The currency type (0 = money, 1 = gold, 2 = rol)
+-- Money to Gold 
+
+RegisterServerEvent('mms-banking:server:MoneyToGold',function(ExchangeAmount)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local Money = Character.money
+    local LookHowOftenHeGet = ExchangeAmount / Config.AmountMoney
+    local ThisisIt = math.floor(LookHowOftenHeGet)
+    local GoldToGet = ThisisIt * Config.AmountGold
+    local MoneyToRemove = ThisisIt * Config.AmountMoney
+    if ExchangeAmount > 0 and Money >= ExchangeAmount then
+        Character.removeCurrency(0,MoneyToRemove)
+        Character.addCurrency(1,GoldToGet)
+        VORPcore.NotifyTip(src,_U('ExchangedMoney') .. MoneyToRemove .. _U('ExchangedTo') .. GoldToGet .. _U('GoldExchanged'),5000)
+    else
+        VORPcore.NotifyTip(src,_U('NotEnoghMoneyOrWrongInput'),5000)
+    end
+end)
+
+-- Gold To Money
+
+RegisterServerEvent('mms-banking:server:GoldToMoney',function(ExchangeAmount)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local Gold = Character.gold
+    local LookHowOftenHeGet = ExchangeAmount / Config.AmountGold
+    local ThisisIt = math.floor(LookHowOftenHeGet)
+    local GoldToRemove = ThisisIt * Config.AmountGold
+    local MoneyToAdd = ThisisIt * Config.AmountMoney
+    if ExchangeAmount > 0 and Gold >= ExchangeAmount then
+        Character.addCurrency(0,MoneyToAdd)
+        Character.removeCurrency(1,GoldToRemove)
+        VORPcore.NotifyTip(src,_U('ExchangedGold') .. GoldToRemove .. _U('ExchangedTo') .. MoneyToAdd .. _U('MoneyExchanged'),5000)
+    else
+        VORPcore.NotifyTip(src,_U('NotEnoghMoneyOrWrongInput'),5000)
+    end
+end)
+
+
 --- RegisterCallback Get Money
 
 VORPcore.Callback.Register('mms-banking:callback:getplayermoney', function(source,cb)
@@ -375,6 +415,9 @@ VORPcore.Callback.Register('mms-banking:callback:getplayermoney', function(sourc
     local Money = Character.money
     cb(Money)
 end)
+
+
+
 --------------------------------------------------------------------------------------------------
 -- start version check
 --------------------------------------------------------------------------------------------------

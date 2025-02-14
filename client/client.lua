@@ -162,6 +162,7 @@ local BankingPrompt = BccUtils.Prompts:SetupPromptGroup()
         bankingped:Freeze()
         bankingped:SetHeading(v.NpcHeading)
         bankingped:Invincible()
+        SetBlockingOfNonTemporaryEvents(bankingped:GetPed(), true)
         end
     end
     while true do
@@ -275,6 +276,18 @@ Citizen.CreateThread(function ()
     }, function()
         BankingPage2:RouteTo()
     end)
+    if Config.ExchangeMoney then
+    BankingPage1:RegisterElement('button', {
+        label = _U('ChangeMoney'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage3:RouteTo()
+    end)
+    end
     BankingPage1:RegisterElement('button', {
         label = _U('OpenVault'),
         style = {
@@ -408,6 +421,124 @@ end)
         ['color'] = 'orange',
         }
     })
+
+
+
+    --- Seite 3 
+
+    BankingPage3 = Banking:RegisterPage('seite3')
+    BankingPage3:RegisterElement('header', {
+        value = _U('ExchangeHeader'),
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage3:RegisterElement('line', {
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    ExchangeCourse1 = BankingPage3:RegisterElement('textdisplay', {
+        value = _U('ExchangeCourse'),
+        style = {
+            ['font-size'] = '24px',
+            ['font-weight'] = 'bold',
+            ['color'] = 'orange',
+        }
+    })
+    ExchangeCourse2 = BankingPage3:RegisterElement('textdisplay', {
+        value = _U('For') .. Config.AmountGold ..  _U('YouGetAsReward') .. Config.AmountMoney .. _U('XMoney'),
+        style = {
+            ['font-size'] = '20px',
+            ['font-weight'] = 'bold',
+            ['color'] = 'orange',
+        }
+    })
+    local ChangeAmount = ''
+    BankingPage3:RegisterElement('input', {
+    label = _U('EnterExchangeAmount'),
+    placeholder = "",
+    persist = false,
+    style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function(data)
+        ChangeAmount = data.value
+    end)
+    BankingPage3:RegisterElement('button', {
+        label =  _U('TransferToMoney'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        local ExchangeAmount = tonumber(ChangeAmount)
+        TriggerEvent('mms-banking:client:GoldToMoney',ExchangeAmount)
+    end)
+    BankingPage3:RegisterElement('button', {
+        label =  _U('TransferToGold'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        local ExchangeAmount = tonumber(ChangeAmount)
+        TriggerEvent('mms-banking:client:MoneyToGold',ExchangeAmount)
+    end)
+    BankingPage3:RegisterElement('button', {
+        label =  _U('BackMenu'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage1:RouteTo()
+    end)
+    BankingPage3:RegisterElement('button', {
+        label =  _U('CloseBoard'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        Banking:Close({ 
+        })
+    end)
+    BankingPage3:RegisterElement('subheader', {
+        value = _U('ExchangeSubHeader'),
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage3:RegisterElement('line', {
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+end)
+
+-- Money to Gold
+
+RegisterNetEvent('mms-banking:client:MoneyToGold')
+AddEventHandler('mms-banking:client:MoneyToGold',function(ExchangeAmount)
+    TriggerServerEvent('mms-banking:server:MoneyToGold',ExchangeAmount)
+end)
+
+-- Gold to Money
+
+RegisterNetEvent('mms-banking:client:GoldToMoney')
+AddEventHandler('mms-banking:client:GoldToMoney',function(ExchangeAmount)
+    TriggerServerEvent('mms-banking:server:GoldToMoney',ExchangeAmount)
 end)
 
 --- Create Bills

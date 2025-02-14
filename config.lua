@@ -5,7 +5,7 @@ Config = {}
 -----------------------------------------------------------------------------------
 Config.EnableWebHook = true
 Config.WHTitle = 'Bank:'
-Config.WHLink = 'https://discord.com/api/webhooks/1204094965517656145/JsBu52b0JK3UCHf_vgeWxGKNSoS97O6DlwFwvnCkC1YPyI8DuE9yzuPTEfXNMLc9_W4E'  -- Discord WH link Here
+Config.WHLink = 'https://discord.com/api/webhooks/1225173782688174222/_Pk9l3WulqXlGkijCr81uXLbyneUCIlIsPe59CwoWgDYeQWvL1BzHzTVqPlaewu5jRTF'  -- Discord WH link Here
 Config.WHColor = 16711680 -- red
 Config.WHName = 'Bank:' -- name
 Config.WHLogo = '' -- must be 30x30px
@@ -19,6 +19,14 @@ Config.BillsCommand = 'rechnung'
 Config.BankingBlips = true
 Config.BlipSprite = 'blip_cash_bag'
 Config.CreateNPC = true
+
+--- NEW
+
+Config.ExchangeMoney = true
+Config.AmountGold = 3   --- In This Case 1 Gold is 50$
+Config.AmountMoney = 33
+
+---
 
 Config.BankPositions = {
     {
@@ -41,17 +49,29 @@ Config.BankPositions = {
         coords = vector3(-1789.16, -354.18, 165.07),--- Also the Location of Blip and Npc (Strawberry)},
         NpcHeading = 112.15,
     },
+    {
+        coords = vector3(-378.43, -138.78, 48.54),--- Also the Location of Blip and Npc (Limpany)},
+        NpcHeading = 57.69,
+    },
+    {
+        coords = vector3(-5534.56, -2956.74, -0.62),--- Also the Location of Blip and Npc (Tumbleweed)},
+        NpcHeading = 294.24,
+    },
+    {
+        coords = vector3(1447.26, 343.65, 88.67),--- Also the Location of Blip and Npc (Emerald)},
+        NpcHeading = 108.86,
+    },
 }
 
 
-Config.VaultPrice = 50  -- Initial Price to Buy a Vault
-Config.UpgradeCosts = 100 -- upgradecost Per level
+Config.VaultPrice = 500  -- Initial Price to Buy a Vault
+Config.UpgradeCosts = 500 -- upgradecost Per level
 Config.Maxlevel = 5  -- you can make inly level 1 or till 2 Max Level is 5 if you do Maxlevel to 6 it wont work
-Config.Level1 = 100 --- Start Storage Size 
-Config.Level2 = 200 --- Increased by 200 New size will be 300
-Config.Level3 = 300 --- Increased by 300 New Size will be 600
-Config.Level4 = 400 --- Increased by 400 New Size will be 1000
-Config.Level5 = 500 --- Increased by 500 New Size will be 1500
+Config.Level1 = 1000 --- Start Storage Size 
+Config.Level2 = 500 --- Increased by 500 New size will be 1500
+Config.Level3 = 1000 --- Increased by 1000 New Size will be 2500
+Config.Level4 = 1500 --- Increased by 1500 New Size will be 4000
+Config.Level5 = 2000 --- Increased by 2000 New Size will be 6000
 
 Config.Doors       = {
     [2642457609] = 0, -- Valentine bank, front entrance, left door

@@ -49,8 +49,23 @@ Locales["en_lang"] = {
     PayedBillFrom = ' Bezahlt Rechnung von ',
     YouPayedBillFrom = 'Du hast eine Rechnung Bezahlt!',
     BillNotFound = 'Rechnung nicht Gefunden.',
-    -- NEW
     BillReason = 'Rechnungsgrund',
     Reason = ' Grund: ',
-
+    --- New
+    ChangeMoney = 'Geld Wechseln',
+    ExchangeHeader = 'Geld Wechseln',
+    ExchangeSubHeader = 'Geld Wechseln',
+    TransferToGold = 'In Gold Wechseln',
+    TransferToMoney = 'In $ Wechseln',
+    EnterExchangeAmount = 'Betrag Wechseln',
+    ExchangeCourse = 'Wechselkurs: ',
+    For = 'Für ',
+    YouGetAsReward = ' Gold bekommst du ',
+    XMoney = ' Dollar',
+    NotEnoghMoneyOrWrongInput = 'Nicht genug Geld oder falsche Eingabe.',
+    ExchangedMoney = 'Du hast $ ',
+    ExchangedTo = ' zu ',
+    GoldExchanged = ' Gold Getauscht.',
+    ExchangedGold = 'Du hast Gold ',
+    MoneyExchanged = ' $ Getauscht.'
 }

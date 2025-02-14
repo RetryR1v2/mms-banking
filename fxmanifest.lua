@@ -3,7 +3,7 @@ rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aw
 game 'rdr3'
 
 description 'mms-banking'
-version '1.2.1'
+version '1.2.2'
 author 'Markus Mueller'
 
 client_scripts {

@@ -1,5 +1,5 @@
 Locales["de_lang"] = {
-    BoardHeader = 'The Heartland Revengers Bank',
+    BoardHeader = 'Tal der Hoffnung Bank',
     CloseBoard = 'Bank Schließen',
     BankValue = 'Aktueller Kontostand: ',
     PromptName = 'Bank',
@@ -51,5 +51,21 @@ Locales["de_lang"] = {
     BillNotFound = 'Rechnung nicht Gefunden.',
     BillReason = 'Rechnungsgrund',
     Reason = ' Grund: ',
-
+    --- New
+    ChangeMoney = 'Geld Wechseln',
+    ExchangeHeader = 'Geld Wechseln',
+    ExchangeSubHeader = 'Geld Wechseln',
+    TransferToGold = 'In Gold Wechseln',
+    TransferToMoney = 'In $ Wechseln',
+    EnterExchangeAmount = 'Betrag Wechseln',
+    ExchangeCourse = 'Wechselkurs: ',
+    For = 'Für ',
+    YouGetAsReward = ' Gold bekommst du ',
+    XMoney = ' Dollar',
+    NotEnoghMoneyOrWrongInput = 'Nicht genug Geld oder falsche Eingabe.',
+    ExchangedMoney = 'Du hast $ ',
+    ExchangedTo = ' zu ',
+    GoldExchanged = ' Gold Getauscht.',
+    ExchangedGold = 'Du hast Gold ',
+    MoneyExchanged = ' $ Getauscht.'
 }
