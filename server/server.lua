@@ -41,7 +41,22 @@ VORPcore.Callback.Register('mms-banking:callback:updatebalance', function(source
         else
             amount = 0
         end
-    Citizen.Wait(500)
+    Citizen.Wait(100)
+    cb (amount)
+end)
+
+VORPcore.Callback.Register('mms-banking:callback:updategoldbalance', function(source,cb)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local identifier = Character.identifier
+    local charidentifier = Character.charIdentifier
+    local result = MySQL.query.await("SELECT * FROM mms_banking WHERE charidentifier=@charidentifier", { ["charidentifier"] = charidentifier})
+        if #result > 0 then
+            amount = result[1].goldbalance
+        else
+            amount = 0
+        end
+    Citizen.Wait(100)
     cb (amount)
 end)
 
@@ -54,7 +69,8 @@ RegisterServerEvent('mms-banking:server:updatebalance', function()
         if #result > 0 then 
             local balance = result[1].balance
             local kontoid = result[1].bankid
-            TriggerClientEvent('mms-banking:client:reciveupdatebalance',src,balance,kontoid)
+            local goldbalance = result[1].goldbalance
+            TriggerClientEvent('mms-banking:client:reciveupdatebalance',src,balance,kontoid,goldbalance)
         end
 end)
 
@@ -416,7 +432,67 @@ VORPcore.Callback.Register('mms-banking:callback:getplayermoney', function(sourc
     cb(Money)
 end)
 
+--- RegisterCallback Get Gold
 
+VORPcore.Callback.Register('mms-banking:callback:getplayergold', function(source,cb)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local Gold = Character.gold
+    cb(Gold)
+end)
+
+----- Deposit Gold
+
+RegisterServerEvent('mms-banking:server:depositgold',function(depositamount)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local identifier = Character.identifier
+    local charidentifier = Character.charIdentifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
+    local bankid = math.random(1000,99999)
+    local result = MySQL.query.await("SELECT * FROM mms_banking WHERE charidentifier=@charidentifier", { ["charidentifier"] = charidentifier})
+        if #result > 0 then
+            local newbalance = result[1].goldbalance + depositamount
+            MySQL.update('UPDATE `mms_banking` SET goldbalance = ? WHERE charidentifier = ?',{newbalance, charidentifier})
+            Character.removeCurrency(1, depositamount)
+            VORPcore.NotifyTip(src, depositamount.._U('DepositedGold'), 5000)
+            TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Deposited ' .. depositamount .. ' Gold', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
+        else
+            MySQL.insert('INSERT INTO `mms_banking` (identifier, charidentifier, bankid, balance, goldbalance) VALUES (?, ?, ?, ?, ?)', {identifier,charidentifier,bankid,depositamount}, function()end)
+            Character.removeCurrency(1, depositamount)
+            VORPcore.NotifyTip(src, depositamount.._U('DepositedGold'), 5000)
+            TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Deposited ' .. depositamount .. ' Gold', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
+        end
+end)
+
+-- Withdraw Gold
+
+RegisterServerEvent('mms-banking:server:withdrawgold',function(withdrawmount)
+    local src = source
+    local Character = VORPcore.getUser(src).getUsedCharacter
+    local identifier = Character.identifier
+    local charidentifier = Character.charIdentifier
+    local firstname = Character.firstname
+    local lastname = Character.lastname
+    local result = MySQL.query.await("SELECT * FROM mms_banking WHERE charidentifier=@charidentifier", { ["charidentifier"] = charidentifier})
+        if #result > 0 then
+            local newbalance = result[1].goldbalance - withdrawmount
+            MySQL.update('UPDATE `mms_banking` SET goldbalance = ? WHERE charidentifier = ?',{newbalance, charidentifier})
+            Character.addCurrency(1, withdrawmount)
+            VORPcore.NotifyTip(src, withdrawmount.._U('WithdrawnGold'), 5000)
+            TriggerClientEvent('mms-banking:client:updatebalance',src)
+            if Config.EnableWebHook == true then
+                VORPcore.AddWebhook(Config.WHTitle, Config.WHLink, firstname .. ' ' .. lastname .. ' Withdrawn ' .. withdrawmount .. ' Gold', Config.WHColor, Config.WHName, Config.WHLogo, Config.WHFooterLogo, Config.WHAvatar)
+            end
+        end
+end)
 
 --------------------------------------------------------------------------------------------------
 -- start version check

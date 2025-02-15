@@ -238,43 +238,33 @@ Citizen.CreateThread(function ()
         ['color'] = 'orange',
         }
     })
-    Kontostand = BankingPage1:RegisterElement('textdisplay', {
-        value = _U('BankValue'),
-        style = {}
-    })
     Kontonummer = BankingPage1:RegisterElement('textdisplay', {
         value = _U('BankId'),
-        style = {}
+        style = {
+            ['font-size'] = '20px',
+            ['font-weight'] = 'bold',
+            ['color'] = 'orange',
+        }
     })
     BankingPage1:RegisterElement('button', {
-        label = _U('Deposit'),
+        label = _U('MoneyPage'),
         style = {
             ['background-color'] = '#FF8C00',
         ['color'] = 'orange',
         ['border-radius'] = '6px'
         },
     }, function()
-        TriggerEvent('mms-banking:client:deposit')
+        BankingPage4:RouteTo()
     end)
     BankingPage1:RegisterElement('button', {
-        label = _U('Withdraw'),
+        label = _U('GoldPage'),
         style = {
             ['background-color'] = '#FF8C00',
         ['color'] = 'orange',
         ['border-radius'] = '6px'
         },
     }, function()
-        TriggerEvent('mms-banking:client:withdraw')
-    end)
-    BankingPage1:RegisterElement('button', {
-        label = _U('Transfer'),
-        style = {
-            ['background-color'] = '#FF8C00',
-        ['color'] = 'orange',
-        ['border-radius'] = '6px'
-        },
-    }, function()
-        BankingPage2:RouteTo()
+        BankingPage5:RouteTo()
     end)
     if Config.ExchangeMoney then
     BankingPage1:RegisterElement('button', {
@@ -520,6 +510,174 @@ end)
         }
     })
     BankingPage3:RegisterElement('line', {
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+
+    --- Seite 4 NUR GELD 
+
+    BankingPage4 = Banking:RegisterPage('seite4')
+    BankingPage4:RegisterElement('header', {
+        value = _U('MoneyMenuHeader'),
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage4:RegisterElement('line', {
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    Kontostand = BankingPage4:RegisterElement('textdisplay', {
+        value = _U('BankValue'),
+        style = {
+            ['font-size'] = '20px',
+            ['font-weight'] = 'bold',
+            ['color'] = 'orange',
+        }
+    })
+    BankingPage4:RegisterElement('button', {
+        label = _U('Deposit'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:deposit')
+    end)
+    BankingPage4:RegisterElement('button', {
+        label = _U('Withdraw'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:withdraw')
+    end)
+    BankingPage4:RegisterElement('button', {
+        label = _U('Transfer'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage2:RouteTo()
+    end)
+    BankingPage4:RegisterElement('button', {
+        label =  _U('BackMenu'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage1:RouteTo()
+    end)
+    BankingPage4:RegisterElement('button', {
+        label =  _U('CloseBoard'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        Banking:Close({ 
+        })
+    end)
+    BankingPage4:RegisterElement('subheader', {
+        value = _U('MoneyMenuSubHeader'),
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage4:RegisterElement('line', {
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+
+    --- Seite 5 NUR Gold 
+
+    BankingPage5 = Banking:RegisterPage('seite5')
+    BankingPage5:RegisterElement('header', {
+        value = _U('GoldMenuHeader'),
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage5:RegisterElement('line', {
+        slot = 'header',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    KontostandGold = BankingPage5:RegisterElement('textdisplay', {
+        value = _U('GoldBankValue'),
+        style = {
+            ['font-size'] = '20px',
+            ['font-weight'] = 'bold',
+            ['color'] = 'orange',
+        }
+    })
+    BankingPage5:RegisterElement('button', {
+        label = _U('DepositGoldButton'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:depositGold')
+    end)
+    BankingPage5:RegisterElement('button', {
+        label = _U('WithdrawGoldButton'),
+        style = {
+            ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        TriggerEvent('mms-banking:client:withdrawGold')
+    end)
+    BankingPage5:RegisterElement('button', {
+        label =  _U('BackMenu'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        BankingPage1:RouteTo()
+    end)
+    BankingPage5:RegisterElement('button', {
+        label =  _U('CloseBoard'),
+        style = {
+        ['background-color'] = '#FF8C00',
+        ['color'] = 'orange',
+        ['border-radius'] = '6px'
+        },
+    }, function()
+        Banking:Close({ 
+        })
+    end)
+    BankingPage5:RegisterElement('subheader', {
+        value = _U('GoldMenuSubHeader'),
+        slot = 'footer',
+        style = {
+        ['color'] = 'orange',
+        }
+    })
+    BankingPage5:RegisterElement('line', {
         slot = 'footer',
         style = {
         ['color'] = 'orange',
@@ -940,6 +1098,76 @@ AddEventHandler('mms-banking:client:withdraw',function()
     end)
 end)
 
+--- Deposit Gold
+
+RegisterNetEvent('mms-banking:client:depositGold')
+AddEventHandler('mms-banking:client:depositGold',function()
+    local DepositInput = {
+        type = "enableinput",
+        inputType = "input",
+        button = _U('Confirm'),
+        placeholder = "Gold",
+        style = "block",
+        attributes = {
+            inputHeader = _U('EnterValue'),
+            type = "text",
+            pattern = "[0-9]+",
+            title = _U('NumbersOnly'),
+            style = "border-radius: 10px; background-color: ; border:none;"
+        }
+    }
+    TriggerEvent("vorpinputs:advancedInput", json.encode(DepositInput), function(result)
+        
+        if result ~= "" and result then 
+            local depositamount = tonumber(result)
+            local Gold =  VORPcore.Callback.TriggerAwait('mms-banking:callback:getplayergold')
+            if Gold >= depositamount then
+                TriggerServerEvent('mms-banking:server:depositgold',depositamount)
+            else
+                VORPcore.NotifyTip(_U('NotEnoghGold'),  5000)
+            end
+
+        else
+            print(_U('NoEntry')) --notify
+        end
+    end)
+end)
+
+--- Withdraw Gold
+
+RegisterNetEvent('mms-banking:client:withdrawGold')
+AddEventHandler('mms-banking:client:withdrawGold',function()
+    local WithdrawInput = {
+        type = "enableinput",
+        inputType = "input",
+        button = _U('Confirm'),
+        placeholder = "Gold",
+        style = "block",
+        attributes = {
+            inputHeader = _U('EnterValue'),
+            type = "text",
+            pattern = "[0-9]+",
+            title = _U('NumbersOnly'),
+            style = "border-radius: 10px; background-color: ; border:none;"
+        }
+    }
+    TriggerEvent("vorpinputs:advancedInput", json.encode(WithdrawInput), function(result)
+        
+        if result ~= "" and result then 
+            local withdrawmount = tonumber(result)
+            local balanceresult = VORPcore.Callback.TriggerAwait('mms-banking:callback:updategoldbalance')
+            if balanceresult >= withdrawmount then
+                TriggerServerEvent('mms-banking:server:withdrawgold',withdrawmount)
+            else
+                VORPcore.NotifyTip(_U('NotEnoghGoldBalance'),  5000)
+            end
+
+        else
+            print(_U('NoEntry')) --notify
+        end
+    end)
+end)
+
 --- Open Vault
 
 RegisterNetEvent('mms-banking:client:openvault')
@@ -997,13 +1225,17 @@ AddEventHandler('mms-banking:client:updatebalance',function()
 end)
 
 RegisterNetEvent('mms-banking:client:reciveupdatebalance')
-AddEventHandler('mms-banking:client:reciveupdatebalance',function(balance,kontoid)
+AddEventHandler('mms-banking:client:reciveupdatebalance',function(balance,kontoid,goldbalance)
     Kontostand:update({
         value = _U('BankValue') .. balance .. ' $',
         style = {}
     })
     Kontonummer:update({
         value = _U('BankId') .. kontoid,
+        style = {}
+    })
+    KontostandGold:update({
+        value = _U('GoldBankValue') .. goldbalance .. ' Gold',
         style = {}
     })
 end)

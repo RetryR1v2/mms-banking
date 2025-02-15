@@ -30,6 +30,8 @@
 - Changed Files (Fxmanifest,version,readme,client,server,2 New Translationsw)
 - 1.2.1 Fixed Console Error
 - 1.2.2 Added Exchange System To Change Money with Gold.
+- 1.2.3 Added Gold Bank
+- Reworked Menu
 
 You can now Transfer Money between Accounts
 Now Using CharIdentifier instead of SteamID

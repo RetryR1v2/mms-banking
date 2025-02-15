@@ -67,5 +67,19 @@ Locales["en_lang"] = {
     ExchangedTo = ' zu ',
     GoldExchanged = ' Gold Getauscht.',
     ExchangedGold = 'Du hast Gold ',
-    MoneyExchanged = ' $ Getauscht.'
+    MoneyExchanged = ' $ Getauscht.',
+    -- New with Deposit Gold.
+    MoneyPage = 'Geld Menü',
+    GoldPage = 'Gold Menü',
+    NotEnoghGold = 'Nicht Genug Gold',
+    DepositedGold = ' Gold Eingezahlt',
+    GoldBankValue = 'Goldbestand: ',
+    DepositGoldButton = 'Gold Einzahlen',
+    GoldMenuHeader = 'Gold Menü',
+    GoldMenuSubHeader = 'Gold Menü',
+    WithdrawGoldButton = 'Gold Abheben',
+    NotEnoghGoldBalance = 'Nicht genug Gold auf der Bank',
+    WithdrawnGold = ' Gold Abgehoben',
+    MoneyMenuHeader = 'Geld Menü',
+    MoneyMenuSubHeader = 'Geld Menü',
 }
